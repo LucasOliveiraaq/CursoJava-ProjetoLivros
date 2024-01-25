@@ -6,12 +6,12 @@ import javax.persistence.Persistence;
 
 import com.lucaspo.CursoJava_ProjetoLivros.Model.Livro;
 
-public class LivroDAOImpl implements LivroDAO{
+public class LivroDAOImpl implements LivroDAO {
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory("CursoJava-jpa");
+	EntityManager em = emf.createEntityManager();
 
 	@Override
 	public void save(Livro livro) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("CursoJava-jpa");
-		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		em.merge(livro);
 		em.getTransaction().commit();
