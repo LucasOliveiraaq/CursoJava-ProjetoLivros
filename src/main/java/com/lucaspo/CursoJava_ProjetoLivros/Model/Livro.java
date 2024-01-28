@@ -14,15 +14,15 @@ public class Livro {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	@Column
+	@Column(nullable = false, length = 100)
 	private String titulo;
-	@Column
+	@Column(nullable = false, length = 50)
 	private String autor;
 	@Column
 	private String imagemLivro;
 	@Column
 	private Integer numPaginas;
-	@Column
+	@Column(nullable = false)
 	private Integer statusLeitura;
 	
 	public Livro() {
