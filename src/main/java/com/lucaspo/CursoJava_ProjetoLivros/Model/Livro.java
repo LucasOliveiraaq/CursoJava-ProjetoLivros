@@ -19,7 +19,7 @@ public class Livro {
 	@Column(nullable = false, length = 50)
 	private String autor;
 	@Column
-	private String imagemLivro;
+	private byte[] imagemLivro;
 	@Column
 	private Integer numPaginas;
 	@Column(nullable = false)
@@ -28,7 +28,7 @@ public class Livro {
 	public Livro() {
 	}
 
-	public Livro(String titulo, String autor, String imagemLivro, Integer numPaginas, Integer statusLeitura) {
+	public Livro(String titulo, String autor, byte[] imagemLivro, Integer numPaginas, Integer statusLeitura) {
 		this.titulo = titulo;
 		this.autor = autor;
 		this.imagemLivro = imagemLivro;
@@ -56,11 +56,11 @@ public class Livro {
 		this.autor = autor;
 	}
 
-	public String getImagemLivro() {
+	public byte[] getImagemLivro() {
 		return imagemLivro;
 	}
 
-	public void setImagemLivro(String imagemLivro) {
+	public void setImagemLivro(byte[] imagemLivro) {
 		this.imagemLivro = imagemLivro;
 	}
 

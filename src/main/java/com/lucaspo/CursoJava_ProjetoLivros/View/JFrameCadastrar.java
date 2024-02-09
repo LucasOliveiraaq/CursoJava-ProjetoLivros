@@ -5,10 +5,10 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.ImageFilter;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -23,6 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.lucaspo.CursoJava_ProjetoLivros.Controller.LivroController;
 import com.lucaspo.CursoJava_ProjetoLivros.DAO.LivroDAOImpl;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.Livro;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.StatusLeitura;
@@ -53,19 +54,8 @@ public class JFrameCadastrar extends JFrame {
 	private JFileChooser jFileImagem;
 	
 	private JButton buttonSalvar;
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JFrameCadastrar frame = new JFrameCadastrar();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
+	private LivroController livroController = new LivroController();
 
 	public JFrameCadastrar() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -242,26 +232,33 @@ public class JFrameCadastrar extends JFrame {
 	public JButton getButtonSalvar() {
 		if (buttonSalvar == null) {
 			buttonSalvar = new JButton();
-			buttonSalvar.setLocation(314, 150);
-			buttonSalvar.setSize(65, 22);
+			buttonSalvar.setLocation(308, 150);
+			buttonSalvar.setSize(70, 22);
 			buttonSalvar.setText("Salvar");
 			buttonSalvar.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Livro livro = carregarLivro();
-					new LivroDAOImpl().save(livro);
+					Livro livro;
+					try {
+						livro = carregarLivro();
+						livroController.saveLivro(livro);
+						JFrameCadastrar.this.dispose();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 			});
 		}
 		return buttonSalvar;
 	}
 	
-	public Livro carregarLivro() {
+	public Livro carregarLivro() throws IOException {
 		Livro livro = new Livro();
 		livro.setTitulo(jTextFieldTitulo.getText());
 		livro.setAutor(jTextFieldAutor.getText());
-		livro.setImagemLivro(jTextFieldImagem.getText());
+		byte[] imagemLivro = Files.readAllBytes(Paths.get(jTextFieldImagem.getText()));
+		livro.setImagemLivro(imagemLivro);
 		livro.setNumPaginas((Integer) jSpinnerNumPaginas.getValue());
 		livro.setStatusLeitura(jComboBoxStatus.getSelectedIndex());
 		return livro;
