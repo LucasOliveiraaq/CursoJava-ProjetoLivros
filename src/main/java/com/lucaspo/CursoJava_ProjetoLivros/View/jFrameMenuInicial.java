@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.lucaspo.CursoJava_ProjetoLivros.Controller.LivroController;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.Livro;
+import com.lucaspo.CursoJava_ProjetoLivros.Model.StatusLeitura;
 
 public class jFrameMenuInicial extends JFrame {
 	
@@ -70,10 +71,6 @@ public class jFrameMenuInicial extends JFrame {
 		tableModel.addColumn("Autor");
 		tableModel.addColumn("Paginas");
 		tableModel.addColumn("Status");
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
         List<Livro> list = new LivroController().loadAll();
 
         for (Livro livro : list) {
@@ -81,7 +78,7 @@ public class jFrameMenuInicial extends JFrame {
         			livro.getTitulo(),
         			livro.getAutor(),
         			livro.getNumPaginas(),
-        			livro.getStatusLeitura()
+        			StatusLeitura.retornoDescription(livro.getStatusLeitura())
         	};
         	tableModel.addRow(objects);
         }
