@@ -29,4 +29,13 @@ public enum StatusLeitura {
 		}
 		return null;
 	}
+	
+	public static int retornoValue(String valueSelecionado) {
+		for (StatusLeitura statusLeitura : StatusLeitura.values()) {
+			if(statusLeitura.description == valueSelecionado) {
+				return statusLeitura.value;
+			}
+		}
+		return 0;
+	}
 }

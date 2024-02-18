@@ -35,6 +35,14 @@ public class Livro {
 		this.numPaginas = numPaginas;
 		this.statusLeitura = statusLeitura;
 	}
+	
+	public Livro(String titulo, String autor, Integer numPaginas, Integer statusLeitura) {
+		super();
+		this.titulo = titulo;
+		this.autor = autor;
+		this.numPaginas = numPaginas;
+		this.statusLeitura = statusLeitura;
+	}
 
 	public Integer getId() {
 		return id;
