@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "livro")
@@ -24,6 +25,8 @@ public class Livro {
 	private Integer numPaginas;
 	@Column(nullable = false)
 	private Integer statusLeitura;
+	@Transient
+	private String status; // retornar o statusLeitura String  	
 	
 	public Livro() {
 	}
@@ -43,7 +46,7 @@ public class Livro {
 		this.numPaginas = numPaginas;
 		this.statusLeitura = statusLeitura;
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -86,5 +89,13 @@ public class Livro {
 
 	public void setStatusLeitura(Integer statusLeitura) {
 		this.statusLeitura = statusLeitura;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

@@ -1,9 +1,9 @@
 package com.lucaspo.CursoJava_ProjetoLivros.Model;
 
 public enum StatusLeitura {
-	Planejado(1, "Planejado"),
-	Lendo(2, "Lendo"),
-	Concluído(3, "Concluído");
+	Planejado(0, "Planejado"),
+	Lendo(1, "Lendo"),
+	Concluído(2, "Concluído");
 	
 	private final int value;
 	private final String description;
