@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.List;
@@ -19,11 +18,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import com.lucaspo.CursoJava_ProjetoLivros.Controller.LivroController;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.Livro;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.StatusLeitura;
+import com.lucaspo.CursoJava_ProjetoLivros.Util.TableModel;
 
 public class jFrameMenuInicial extends JFrame {
 
@@ -102,48 +101,38 @@ public class jFrameMenuInicial extends JFrame {
 	}
 
 	public void gridCadastroLivro() {
-		DefaultTableModel tableModel = new DefaultTableModel();
-		tableModel.addColumn("Titulo");
-		tableModel.addColumn("Autor");
-		tableModel.addColumn("Paginas");
-		tableModel.addColumn("Status");
-		List<Livro> list = new LivroController().loadAll();
+	    String[] columnNames = {"titulo", "autor", "numPaginas", "status"}; 
+	    TableModel<Livro> tableModel = new TableModel<>(columnNames);
 
-		for (Livro livro : list) {
-			Object[] objects = { livro.getTitulo(), livro.getAutor(), livro.getNumPaginas(),
-					StatusLeitura.retornoDescription(livro.getStatusLeitura() + 1) // +1 porque inicia pegando o index no -1.
-			};
-			tableModel.addRow(objects);
-		}
+	    List<Livro> list = new LivroController().loadAll();
 
-		JTable jTable = new JTable(tableModel);
+	    for (Livro livro : list) {
+	    	livro.setStatus(StatusLeitura.retornoDescription(livro.getStatusLeitura()));
+            tableModel.addRow(livro);
+        }
 
-		JPanel jPanel = new JPanel(new GridLayout(0, 1));
-		jPanel.add(new JScrollPane(jTable));
-		
-		// Dentro do método gridCadastroLivro
-		jTable.addMouseListener(new MouseAdapter() {
-		    @Override
-		    public void mouseClicked(MouseEvent e) {
-		            int row = jTable.getSelectedRow();
-		            if (row != -1) { // Verifica se a linha foi selecionada
-		                String titulo = (String) tableModel.getValueAt(row, 0);
-		                String autor = (String) tableModel.getValueAt(row, 1);
-		                Integer numPaginas = (Integer) tableModel.getValueAt(row, 2);
-		                Integer statusLeitura = StatusLeitura.retornoValue((String) tableModel.getValueAt(row, 3));
+        JTable jTable = new JTable(tableModel);
 
-		                JFrameAlterarCadastro jFrameAlterarCadastro = new JFrameAlterarCadastro();
-		                jFrameAlterarCadastro.setVisible(true);
-		                jFrameAlterarCadastro.setLocationRelativeTo(null);
-		                jFrameAlterarCadastro.setResizable(false);
-		            }
-		        }
-		});
+        JPanel jPanel = new JPanel(new GridLayout(0, 1));
+        jPanel.add(new JScrollPane(jTable));
 
-		add(jPanel);
-		setSize(600, 300);
-		setLocationRelativeTo(null);
-		setVisible(true);
+        jTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = jTable.getSelectedRow();
+                if (row != -1) {
+                    Livro livroSelecionado = tableModel.getObjectAt(row);
+                    JFrameAlterarCadastro jFrameAlterarCadastro = new JFrameAlterarCadastro(livroSelecionado);
+                    jFrameAlterarCadastro.setVisible(true);
+                    jFrameAlterarCadastro.setLocationRelativeTo(null);
+                    jFrameAlterarCadastro.setResizable(false);
+                }
+            }
+        });
+
+        add(jPanel);
+        setSize(600, 300);
+        setLocationRelativeTo(null);
+        setVisible(true);
 	}
-
 }

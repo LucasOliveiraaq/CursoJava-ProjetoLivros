@@ -5,8 +5,10 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -17,46 +19,37 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import com.lucaspo.CursoJava_ProjetoLivros.Model.Livro;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.StatusLeitura;
 import com.lucaspo.CursoJava_ProjetoLivros.Util.DocumentoTextField;
+import com.lucaspo.CursoJava_ProjetoLivros.Util.ImageLoader;
 
 public class JFrameAlterarCadastro extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private JPanel contentPane;
 	private JLabel lblAlteracaoLivro;
-	
+
 	private JLabel lblTitulo;
 	private JTextField jTextFieldTitulo;
-	
+
 	private JLabel lblAutor;
 	private JTextField jTextFieldAutor;
-	
+
 	private JLabel lblNumPaginas;
 	private JSpinner jSpinnerNumPaginas;
-	
+
 	private JLabel lblStatus;
 	private JComboBox jComboBoxStatus;
-	
-	private JButton buttonAlteracao;
-	
-	private JLabel lblImagem;
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JFrameAlterarCadastro frame = new JFrameAlterarCadastro();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	public JFrameAlterarCadastro() {
+	private JButton buttonAlteracao;
+
+	private JLabel lblImagem;
+
+	private Livro livro = new Livro();
+
+	public JFrameAlterarCadastro(Livro livro) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 300);
 		contentPane = new JPanel();
@@ -74,8 +67,11 @@ public class JFrameAlterarCadastro extends JFrame {
 		contentPane.add(getJComboBoxStatus());
 		contentPane.add(getButtonAlteracao());
 		contentPane.add(getlblImagem());
+		if (livro != null) {
+			carregarOsCampos(livro);
+		}
 	}
-	
+
 	public JLabel getlblAlteracaoLivro() {
 		if (lblAlteracaoLivro == null) {
 			lblAlteracaoLivro = new JLabel();
@@ -87,7 +83,7 @@ public class JFrameAlterarCadastro extends JFrame {
 		}
 		return lblAlteracaoLivro;
 	}
-	
+
 	public JLabel getlblTitulo() {
 		if (lblTitulo == null) {
 			lblTitulo = new JLabel();
@@ -99,7 +95,7 @@ public class JFrameAlterarCadastro extends JFrame {
 		}
 		return lblTitulo;
 	}
-	
+
 	public JTextField getTextFieldTitulo() {
 		if (jTextFieldTitulo == null) {
 			jTextFieldTitulo = new JTextField();
@@ -109,7 +105,7 @@ public class JFrameAlterarCadastro extends JFrame {
 		}
 		return jTextFieldTitulo;
 	}
-	
+
 	public JLabel getlblAutor() {
 		if (lblAutor == null) {
 			lblAutor = new JLabel();
@@ -121,7 +117,7 @@ public class JFrameAlterarCadastro extends JFrame {
 		}
 		return lblAutor;
 	}
-	
+
 	public JTextField getTextFieldAutor() {
 		if (jTextFieldAutor == null) {
 			jTextFieldAutor = new JTextField();
@@ -131,7 +127,7 @@ public class JFrameAlterarCadastro extends JFrame {
 		}
 		return jTextFieldAutor;
 	}
-	
+
 	public JLabel getlblNumPaginas() {
 		if (lblNumPaginas == null) {
 			lblNumPaginas = new JLabel();
@@ -143,7 +139,7 @@ public class JFrameAlterarCadastro extends JFrame {
 		}
 		return lblNumPaginas;
 	}
-	
+
 	public JSpinner getjSpinnerNumPaginas() {
 		if (jSpinnerNumPaginas == null) {
 			jSpinnerNumPaginas = new JSpinner();
@@ -151,7 +147,7 @@ public class JFrameAlterarCadastro extends JFrame {
 		}
 		return jSpinnerNumPaginas;
 	}
-	
+
 	public JLabel getlblStatus() {
 		if (lblStatus == null) {
 			lblStatus = new JLabel();
@@ -163,7 +159,7 @@ public class JFrameAlterarCadastro extends JFrame {
 		}
 		return lblStatus;
 	}
-	
+
 	public JComboBox getJComboBoxStatus() {
 		if (jComboBoxStatus == null) {
 			jComboBoxStatus = new JComboBox();
@@ -172,7 +168,7 @@ public class JFrameAlterarCadastro extends JFrame {
 		}
 		return jComboBoxStatus;
 	}
-	
+
 	public JButton getButtonAlteracao() {
 		if (buttonAlteracao == null) {
 			buttonAlteracao = new JButton();
@@ -180,7 +176,7 @@ public class JFrameAlterarCadastro extends JFrame {
 			buttonAlteracao.setSize(80, 22);
 			buttonAlteracao.setText("Alteração");
 			buttonAlteracao.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 				}
@@ -188,7 +184,7 @@ public class JFrameAlterarCadastro extends JFrame {
 		}
 		return buttonAlteracao;
 	}
-	
+
 	public JLabel getlblImagem() {
 		if (lblImagem == null) {
 			lblImagem = new JLabel();
@@ -199,5 +195,17 @@ public class JFrameAlterarCadastro extends JFrame {
 			lblImagem.setText("Imagem");
 		}
 		return lblImagem;
+	}
+
+	public void carregarOsCampos(Livro livro) {
+		jTextFieldTitulo.setText(livro.getTitulo());
+		jTextFieldAutor.setText(livro.getAutor());
+		jSpinnerNumPaginas.setValue(livro.getNumPaginas());
+		jComboBoxStatus.setSelectedIndex(livro.getStatusLeitura());
+		BufferedImage imagem = new ImageLoader().carregarImagem(livro.getImagemLivro());
+		if (imagem != null) {
+			ImageIcon icon = new ImageIcon(imagem);
+			lblImagem.setIcon(icon);
+		}
 	}
 }
