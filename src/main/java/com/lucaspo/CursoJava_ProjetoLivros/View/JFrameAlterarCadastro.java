@@ -1,7 +1,6 @@
 package com.lucaspo.CursoJava_ProjetoLivros.View;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +22,7 @@ import com.lucaspo.CursoJava_ProjetoLivros.Model.Livro;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.StatusLeitura;
 import com.lucaspo.CursoJava_ProjetoLivros.Util.DocumentoTextField;
 import com.lucaspo.CursoJava_ProjetoLivros.Util.ImageLoader;
+import com.lucaspo.CursoJava_ProjetoLivros.Util.jButtonZoom;
 
 public class JFrameAlterarCadastro extends JFrame {
 
@@ -48,6 +48,8 @@ public class JFrameAlterarCadastro extends JFrame {
 	private JLabel lblImagem;
 
 	private Livro livro = new Livro();
+	
+	private jButtonZoom jButtonZoom;
 
 	public JFrameAlterarCadastro(Livro livro) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,6 +69,7 @@ public class JFrameAlterarCadastro extends JFrame {
 		contentPane.add(getJComboBoxStatus());
 		contentPane.add(getButtonAlteracao());
 		contentPane.add(getlblImagem());
+		contentPane.add(getjButtonZoom());
 		if (livro != null) {
 			carregarOsCampos(livro);
 		}
@@ -192,9 +195,17 @@ public class JFrameAlterarCadastro extends JFrame {
 			lblImagem.setBounds(390, 43, 250, 160);
 			lblImagem.setForeground(Color.BLACK);
 			lblImagem.setFont(new Font("Tahoma", Font.PLAIN, 11));
-			lblImagem.setText("Imagem");
 		}
 		return lblImagem;
+	}
+	
+	public jButtonZoom getjButtonZoom() {
+		if(jButtonZoom == null) {
+			jButtonZoom = new jButtonZoom();
+			jButtonZoom.setLocation(269, 163);
+			jButtonZoom.setSize(108, 16);
+		}
+		return jButtonZoom;
 	}
 
 	public void carregarOsCampos(Livro livro) {
