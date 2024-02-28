@@ -24,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.lucaspo.CursoJava_ProjetoLivros.Controller.LivroController;
+import com.lucaspo.CursoJava_ProjetoLivros.Controller.LivroImagemController;
 import com.lucaspo.CursoJava_ProjetoLivros.DAO.LivroDAOImpl;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.Livro;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.StatusLeitura;
@@ -39,7 +40,7 @@ public class JFrameCadastrar extends JFrame {
 	private JLabel lblTitulo;
 	private JTextField jTextFieldTitulo;
 
-	private JLabel lblAutor;
+	private JLabel lblAutor; 
 	private JTextField jTextFieldAutor;
 
 	private JLabel lblNumPaginas;
@@ -56,6 +57,7 @@ public class JFrameCadastrar extends JFrame {
 	private JButton buttonSalvar;
 	
 	private LivroController livroController = new LivroController();
+	private LivroImagemController livroImagemController = new LivroImagemController();
 
 	public JFrameCadastrar() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -243,6 +245,7 @@ public class JFrameCadastrar extends JFrame {
 					try {
 						livro = carregarLivro();
 						livroController.saveLivro(livro);
+						livroImagemController.saveLivroImagem(livro.getLivroImagem());
 						JFrameCadastrar.this.dispose();
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -258,7 +261,7 @@ public class JFrameCadastrar extends JFrame {
 		livro.setTitulo(jTextFieldTitulo.getText());
 		livro.setAutor(jTextFieldAutor.getText());
 		byte[] imagemLivro = Files.readAllBytes(Paths.get(jTextFieldImagem.getText()));
-		livro.setImagemLivro(imagemLivro);
+//		livro.setImagemLivro(imagemLivro);
 		livro.setNumPaginas((Integer) jSpinnerNumPaginas.getValue());
 		livro.setStatusLeitura(jComboBoxStatus.getSelectedIndex());
 		return livro;

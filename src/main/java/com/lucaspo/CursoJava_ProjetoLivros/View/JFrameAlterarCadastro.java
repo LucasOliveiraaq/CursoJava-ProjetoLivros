@@ -213,10 +213,10 @@ public class JFrameAlterarCadastro extends JFrame {
 		jTextFieldAutor.setText(livro.getAutor());
 		jSpinnerNumPaginas.setValue(livro.getNumPaginas());
 		jComboBoxStatus.setSelectedIndex(livro.getStatusLeitura());
-		BufferedImage imagem = new ImageLoader().carregarImagem(livro.getImagemLivro());
-		if (imagem != null) {
-			ImageIcon icon = new ImageIcon(imagem);
-			lblImagem.setIcon(icon);
-		}
+//		BufferedImage imagem = new ImageLoader().carregarImagem(livro.getImagemLivro());
+//		if (imagem != null) {
+//			ImageIcon icon = new ImageIcon(imagem);
+//			lblImagem.setIcon(icon);
+//		}
 	}
 }
