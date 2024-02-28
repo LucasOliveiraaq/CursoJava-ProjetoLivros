@@ -27,6 +27,8 @@ public class Livro {
 	private Integer statusLeitura;
 	@Transient
 	private String status; // retornar o statusLeitura String  	
+	@Transient
+	private LivroImagem livroImagem;
 	
 	public Livro() {
 	}
@@ -97,5 +99,13 @@ public class Livro {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public LivroImagem getLivroImagem() {
+		return livroImagem;
+	}
+
+	public void setLivroImagem(LivroImagem livroImagem) {
+		this.livroImagem = livroImagem;
 	}
 }
