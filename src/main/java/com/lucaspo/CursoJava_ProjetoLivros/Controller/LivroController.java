@@ -9,10 +9,10 @@ public class LivroController {
 
 	LivroDAOImpl livroDAOImpl = new LivroDAOImpl();
 	
-	public void saveLivro(Livro livro) {
-		livroDAOImpl.save(livro);
+	public Livro saveLivro(Livro livro) {
+		return livroDAOImpl.save(livro);
 	}
-	
+		
 	public List<Livro> loadAll(){
 		 return livroDAOImpl.loadAll();
 	}

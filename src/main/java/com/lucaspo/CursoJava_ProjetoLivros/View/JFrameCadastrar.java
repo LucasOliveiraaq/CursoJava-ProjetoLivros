@@ -27,6 +27,7 @@ import com.lucaspo.CursoJava_ProjetoLivros.Controller.LivroController;
 import com.lucaspo.CursoJava_ProjetoLivros.Controller.LivroImagemController;
 import com.lucaspo.CursoJava_ProjetoLivros.DAO.LivroDAOImpl;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.Livro;
+import com.lucaspo.CursoJava_ProjetoLivros.Model.LivroImagem;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.StatusLeitura;
 import com.lucaspo.CursoJava_ProjetoLivros.Util.DocumentoTextField;
 
@@ -244,7 +245,10 @@ public class JFrameCadastrar extends JFrame {
 					Livro livro;
 					try {
 						livro = carregarLivro();
-						livroController.saveLivro(livro);
+						Livro livroTemp =  livroController.saveLivro(livro);
+						livro.getLivroImagem().setTamanhoImagem(10);
+						livro.getLivroImagem().setLivro(livroTemp);
+						livro.getLivroImagem().setImagemLivro(livro.getLivroImagem().getImagemLivro());
 						livroImagemController.saveLivroImagem(livro.getLivroImagem());
 						JFrameCadastrar.this.dispose();
 					} catch (IOException e1) {
@@ -258,10 +262,12 @@ public class JFrameCadastrar extends JFrame {
 	
 	public Livro carregarLivro() throws IOException {
 		Livro livro = new Livro();
+		LivroImagem livroImagem = new LivroImagem();
 		livro.setTitulo(jTextFieldTitulo.getText());
 		livro.setAutor(jTextFieldAutor.getText());
 		byte[] imagemLivro = Files.readAllBytes(Paths.get(jTextFieldImagem.getText()));
-//		livro.setImagemLivro(imagemLivro);
+		livroImagem.setImagemLivro(imagemLivro);
+		livro.setLivroImagem(livroImagem);
 		livro.setNumPaginas((Integer) jSpinnerNumPaginas.getValue());
 		livro.setStatusLeitura(jComboBoxStatus.getSelectedIndex());
 		return livro;

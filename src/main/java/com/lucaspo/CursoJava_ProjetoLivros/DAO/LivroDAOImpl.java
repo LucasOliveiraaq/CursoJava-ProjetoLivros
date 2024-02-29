@@ -17,11 +17,12 @@ public class LivroDAOImpl implements LivroDAO {
 	SessionFactory sessionFactory;
 
 	@Override
-	public void save(Livro livro) {
+	public Livro save(Livro livro) {
 		em.getTransaction().begin();
-		em.merge(livro);
+		Livro livro2 =  em.merge(livro);
 		em.getTransaction().commit();
 		emf.close();
+		return livro2;
 	}
 
 	@Override
