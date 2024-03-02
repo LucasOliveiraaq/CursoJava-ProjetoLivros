@@ -1,16 +1,17 @@
 package com.lucaspo.CursoJava_ProjetoLivros.View;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -25,11 +26,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.lucaspo.CursoJava_ProjetoLivros.Controller.LivroController;
 import com.lucaspo.CursoJava_ProjetoLivros.Controller.LivroImagemController;
-import com.lucaspo.CursoJava_ProjetoLivros.DAO.LivroDAOImpl;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.Livro;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.LivroImagem;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.StatusLeitura;
 import com.lucaspo.CursoJava_ProjetoLivros.Util.DocumentoTextField;
+import com.lucaspo.CursoJava_ProjetoLivros.Util.ImageLoader;
+import com.lucaspo.CursoJava_ProjetoLivros.Util.jButtonZoom;
 
 public class JFrameCadastrar extends JFrame {
 
@@ -59,10 +61,16 @@ public class JFrameCadastrar extends JFrame {
 	
 	private LivroController livroController = new LivroController();
 	private LivroImagemController livroImagemController = new LivroImagemController();
+	
+	private JLabel lblCarregarImagem;
+	
+	private jButtonZoom jButtonZoom;
+	
+	
 
 	public JFrameCadastrar() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 218);
+		setBounds(100, 100, 700, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -80,6 +88,8 @@ public class JFrameCadastrar extends JFrame {
 		contentPane.add(getTextFieldImagem());
 		contentPane.add(getButtonImagem());
 		contentPane.add(getButtonSalvar());
+		contentPane.add(getlblCarregarImagem());
+		contentPane.add(getjButtonZoom());
 	}
 
 	public JLabel getlblLivro() {
@@ -222,6 +232,11 @@ public class JFrameCadastrar extends JFrame {
 						if (retorno == JFileChooser.APPROVE_OPTION) {
 							File file = jFileImagem.getSelectedFile();
 							jTextFieldImagem.setText(file.getPath());
+							BufferedImage imagem = new ImageLoader().carregarImagemPasta(file.getPath());
+							if(imagem != null) {
+								ImageIcon icon = new ImageIcon(imagem);
+								lblCarregarImagem.setIcon(icon);
+							}
 						}
 					} catch (Exception ex) {
 						ex.printStackTrace();
@@ -235,7 +250,7 @@ public class JFrameCadastrar extends JFrame {
 	public JButton getButtonSalvar() {
 		if (buttonSalvar == null) {
 			buttonSalvar = new JButton();
-			buttonSalvar.setLocation(308, 150);
+			buttonSalvar.setLocation(180, 150);
 			buttonSalvar.setSize(70, 22);
 			buttonSalvar.setText("Salvar");
 			buttonSalvar.addActionListener(new ActionListener() {
@@ -258,6 +273,26 @@ public class JFrameCadastrar extends JFrame {
 			});
 		}
 		return buttonSalvar;
+	}
+	
+	public JLabel getlblCarregarImagem() {
+		if (lblCarregarImagem == null) {
+			lblCarregarImagem = new JLabel();
+			lblCarregarImagem.setHorizontalAlignment(SwingConstants.RIGHT);
+			lblCarregarImagem.setBounds(390, 43, 250, 160);
+			lblCarregarImagem.setForeground(Color.BLACK);
+			lblCarregarImagem.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		}
+		return lblCarregarImagem;
+	}
+	
+	public jButtonZoom getjButtonZoom() {
+		if(jButtonZoom == null) {
+			jButtonZoom = new jButtonZoom();
+			jButtonZoom.setLocation(269, 150);
+			jButtonZoom.setSize(108, 16);
+		}
+		return jButtonZoom;
 	}
 	
 	public Livro carregarLivro() throws IOException {
