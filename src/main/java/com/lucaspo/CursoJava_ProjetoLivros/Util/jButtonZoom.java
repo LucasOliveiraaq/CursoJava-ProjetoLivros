@@ -1,58 +1,66 @@
 package com.lucaspo.CursoJava_ProjetoLivros.Util;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Dimension;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
-public class jButtonZoom extends JPanel implements ActionListener {
+public class jButtonZoom extends JPanel {
 
 	private int zoom = 100; // Nível de zoom inicial
 	private JLabel jLabelZoom;
-
-	public jButtonZoom() {
-		JButton jButtonZoomMax = new JButton("+");
-        JButton jButtonZoomMin = new JButton("-");
-        jLabelZoom = new JLabel("" + zoom);
-        
-        jButtonZoomMax.addActionListener(this);
-        jButtonZoomMin.addActionListener(this);
-        
-        setLayout(new BorderLayout());
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 2));
-        buttonPanel.add(jButtonZoomMax);
-        buttonPanel.add(jButtonZoomMin);
-        add(buttonPanel, BorderLayout.WEST);
-        add(jLabelZoom, BorderLayout.CENTER);
-	}
+	private JButton jButtonZoomMax;
+	private JButton jButtonZoomMin;
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		 String command = e.getActionCommand();
-	        if (command.equals("-")) {
-	        	zoom -= 10;
-	            if (zoom < 10) {
-	            	zoom = 10;
-	            }
-	        } else if (command.equals("+")) {
-	        	zoom += 10;
-	            if (zoom > 200) {
-	            	zoom = 200;
-	            }
-	        }
+	 public jButtonZoom() {
+	    	super();
+	    	initialize();
+	    }
 
-	        jLabelZoom.setText("" + zoom);
-	}
+		private void initialize() {
+			this.setLayout(null);
+			this.setBounds(0, 0, 333, 20);
+			this.setPreferredSize(new Dimension(157, 33));
+			this.add(getJButtonZoomMax());
+			this.add(getJButtonZoomMin());
+			this.add(getJLabelZoom());
+			jLabelZoom.setText("" + zoom);
+		}
+		
+		public JButton getJButtonZoomMax() {
+			if (jButtonZoomMax == null) {
+				jButtonZoomMax = new JButton();
+				jButtonZoomMax.setBounds(106, 11, 30, 18);
+				jButtonZoomMax.setText("+");
+			}
+			return jButtonZoomMax;
+		}
+		
+		public JButton getJButtonZoomMin() {
+			if (jButtonZoomMin == null) {
+				jButtonZoomMin = new JButton();
+				jButtonZoomMin.setBounds(23, 11, 30, 18);
+				jButtonZoomMin.setText("-");
+			}
+			return jButtonZoomMin;
+		}
+		
+		private JLabel getJLabelZoom() {
+			if (jLabelZoom == null){
+				jLabelZoom = new JLabel();
+				jLabelZoom.setBounds(53, 11, 52, 18);
+			}
+			return jLabelZoom;
+		}
 
-	public JLabel getjLabelZoom() {
-		return jLabelZoom;
-	}
-
-	public void setjLabelZoom(JLabel jLabelZoom) {
-		this.jLabelZoom = jLabelZoom;
-	}
+	    public void setJDataLabelPorcentagemText(String text) {
+	    	getJLabelZoom().setText(text);
+	    }
+	    
+	    public String getJLabelZoomText() {
+	    	return jLabelZoom.getText();
+	    }
 }

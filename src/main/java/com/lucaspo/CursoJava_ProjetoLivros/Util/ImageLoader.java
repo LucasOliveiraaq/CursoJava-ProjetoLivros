@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class ImageLoader {
-	
+
 	public static BufferedImage carregarImagem(byte[] byteImagem) {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(byteImagem);
 		try {
@@ -18,9 +18,9 @@ public class ImageLoader {
 			return null;
 		}
 	}
-	
+
 	public static BufferedImage carregarImagemPasta(String caminhoImagem) {
-		BufferedImage image = null; 
+		BufferedImage image = null;
 		try {
 			image = ImageIO.read(new File(caminhoImagem));
 		} catch (IOException e) {

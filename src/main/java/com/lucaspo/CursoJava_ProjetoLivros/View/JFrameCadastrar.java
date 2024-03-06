@@ -2,6 +2,7 @@ package com.lucaspo.CursoJava_ProjetoLivros.View;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -289,8 +290,26 @@ public class JFrameCadastrar extends JFrame {
 	public jButtonZoom getjButtonZoom() {
 		if(jButtonZoom == null) {
 			jButtonZoom = new jButtonZoom();
-			jButtonZoom.setLocation(269, 150);
-			jButtonZoom.setSize(108, 16);
+			jButtonZoom.getJButtonZoomMin().setBounds(10, 11, 43, 18);
+			jButtonZoom.getJButtonZoomMax().setBounds(77, 11, 41, 18);
+			jButtonZoom.setLocation(260, 139);
+			jButtonZoom.setSize(157, 53);
+			jButtonZoom.getJButtonZoomMin().addActionListener(e -> {
+				Integer valor = Integer.parseInt(jButtonZoom.getJLabelZoomText());
+				if(valor > 10) {
+					Integer valorFinal = valor - 10;
+					 jButtonZoom.setJDataLabelPorcentagemText(valorFinal.toString());
+					 aplicarZoom(valorFinal);
+				}
+			});
+			jButtonZoom.getJButtonZoomMax().addActionListener(e -> {
+				Integer valor = Integer.parseInt(jButtonZoom.getJLabelZoomText());
+				if(valor < 200) {
+					Integer valorFinal = valor + 10;
+					jButtonZoom.setJDataLabelPorcentagemText(valorFinal.toString());
+					 aplicarZoom(valorFinal);
+				}
+			});
 		}
 		return jButtonZoom;
 	}
@@ -307,4 +326,26 @@ public class JFrameCadastrar extends JFrame {
 		livro.setStatusLeitura(jComboBoxStatus.getSelectedIndex());
 		return livro;
 	}
+	
+	public void aplicarZoom(int valor) {
+	    ImageIcon imagemIcon = (ImageIcon) lblCarregarImagem.getIcon();
+	    if (imagemIcon != null) {
+	        int larguraOriginal = imagemIcon.getIconWidth();
+	        int alturaOriginal = imagemIcon.getIconHeight();
+	        
+	        if (valor > 0) {
+	            int novaLargura = (larguraOriginal * valor) / 100;
+	            int novaAltura = (alturaOriginal * valor) / 100;
+	            
+	            Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(novaLargura, novaAltura, Image.SCALE_SMOOTH);
+	            
+	            ImageIcon novoIcone = new ImageIcon(imagemRedimensionada);
+	            
+	            lblCarregarImagem.setIcon(novoIcone);
+	            lblCarregarImagem.setSize(novaLargura, novaAltura);
+	        }
+	    }
+	}
+
+
 }
