@@ -2,7 +2,6 @@ package com.lucaspo.CursoJava_ProjetoLivros.View;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -20,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -67,36 +67,48 @@ public class JFrameCadastrar extends JFrame {
 	
 	private jButtonZoom jButtonZoom;
 	
-	
-
 	public JFrameCadastrar() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 300);
+		setBounds(100, 100, 500, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(getlblLivro());
-		contentPane.add(getlblTitulo());
-		contentPane.add(getTextFieldTitulo());
-		contentPane.add(getlblAutor());
-		contentPane.add(getTextFieldAutor());
-		contentPane.add(getlblNumPaginas());
-		contentPane.add(getjSpinnerNumPaginas());
-		contentPane.add(getlblStatus());
-		contentPane.add(getJComboBoxStatus());
-		contentPane.add(getlblImagem());
-		contentPane.add(getTextFieldImagem());
-		contentPane.add(getButtonImagem());
-		contentPane.add(getButtonSalvar());
-		contentPane.add(getlblCarregarImagem());
-		contentPane.add(getjButtonZoom());
+		
+		JTabbedPane tabbedPane = new JTabbedPane();
+	    JPanel panelCadastro = new JPanel();
+	    panelCadastro.setLayout(null);
+	    panelCadastro.add(getlblTitulo());
+	    panelCadastro.add(getTextFieldTitulo());
+	    panelCadastro.add(getlblAutor());
+	    panelCadastro.add(getTextFieldAutor());
+	    panelCadastro.add(getlblNumPaginas());
+	    panelCadastro.add(getjSpinnerNumPaginas());
+	    panelCadastro.add(getlblStatus());
+	    panelCadastro.add(getJComboBoxStatus());
+	    
+	    JPanel panelImagem = new JPanel();
+	    panelImagem.setLayout(null);
+	    panelImagem.add(getlblCarregarImagem());
+	    panelImagem.add(getjButtonZoom());
+	    panelImagem.add(getlblImagem());
+	    panelImagem.add(getTextFieldImagem());
+	    panelImagem.add(getButtonImagem());
+	    
+	    tabbedPane.addTab("Cadastro", panelCadastro);
+	    tabbedPane.addTab("Imagem", panelImagem);
+	    tabbedPane.setSize(480, 230);
+	    
+	    //fora da aba
+	    contentPane.add(tabbedPane);
+	    contentPane.add(getButtonSalvar());
 	}
 
 	public JLabel getlblLivro() {
 		if (lblLivro == null) {
 			lblLivro = new JLabel();
-			lblLivro.setBounds(180, 10, 70, 22);
+			lblLivro.setBounds(180, 3, 70, 22);
 			lblLivro.setForeground(Color.BLACK);
 			lblLivro.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			lblLivro.setHorizontalAlignment(SwingConstants.CENTER);
@@ -153,7 +165,7 @@ public class JFrameCadastrar extends JFrame {
 		if (lblNumPaginas == null) {
 			lblNumPaginas = new JLabel();
 			lblNumPaginas.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblNumPaginas.setBounds(10, 120, 133, 22);
+			lblNumPaginas.setBounds(10, 95, 133, 22);
 			lblNumPaginas.setForeground(Color.BLACK);
 			lblNumPaginas.setFont(new Font("Tahoma", Font.PLAIN, 11));
 			lblNumPaginas.setText("Numero de Paginas");
@@ -164,7 +176,7 @@ public class JFrameCadastrar extends JFrame {
 	public JSpinner getjSpinnerNumPaginas() {
 		if (jSpinnerNumPaginas == null) {
 			jSpinnerNumPaginas = new JSpinner();
-			jSpinnerNumPaginas.setBounds(145, 120, 70, 22);
+			jSpinnerNumPaginas.setBounds(145, 95, 70, 22);
 		}
 		return jSpinnerNumPaginas;
 	}
@@ -173,7 +185,7 @@ public class JFrameCadastrar extends JFrame {
 		if (lblStatus == null) {
 			lblStatus = new JLabel();
 			lblStatus.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblStatus.setBounds(130, 120, 133, 22);
+			lblStatus.setBounds(130, 95, 133, 22);
 			lblStatus.setForeground(Color.BLACK);
 			lblStatus.setFont(new Font("Tahoma", Font.PLAIN, 11));
 			lblStatus.setText("Status");
@@ -185,7 +197,7 @@ public class JFrameCadastrar extends JFrame {
 		if (jComboBoxStatus == null) {
 			jComboBoxStatus = new JComboBox();
 			jComboBoxStatus.setModel(new DefaultComboBoxModel(StatusLeitura.values()));
-			jComboBoxStatus.setBounds(269, 120, 108, 22);
+			jComboBoxStatus.setBounds(269, 95, 108, 22);
 		}
 		return jComboBoxStatus;
 	}
@@ -194,7 +206,7 @@ public class JFrameCadastrar extends JFrame {
 		if (lblImagem == null) {
 			lblImagem = new JLabel();
 			lblImagem.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblImagem.setBounds(10, 95, 70, 22);
+			lblImagem.setBounds(2, 139, 70, 22);
 			lblImagem.setForeground(Color.BLACK);
 			lblImagem.setFont(new Font("Tahoma", Font.PLAIN, 11));
 			lblImagem.setText("Imagem");
@@ -205,7 +217,7 @@ public class JFrameCadastrar extends JFrame {
 	public JTextField getTextFieldImagem() {
 		if (jTextFieldImagem == null) {
 			jTextFieldImagem = new JTextField();
-			jTextFieldImagem.setLocation(85, 95);
+			jTextFieldImagem.setLocation(75, 139);
 			jTextFieldImagem.setSize(273, 22);
 			jTextFieldImagem.setEditable(false);
 		}
@@ -215,7 +227,7 @@ public class JFrameCadastrar extends JFrame {
 	public JButton getButtonImagem() {
 		if (buttonImagem == null) {
 			buttonImagem = new JButton();
-			buttonImagem.setLocation(360, 95);
+			buttonImagem.setLocation(360, 139);
 			buttonImagem.setSize(18, 22);
 			buttonImagem.addActionListener(new ActionListener() {
 
@@ -251,7 +263,7 @@ public class JFrameCadastrar extends JFrame {
 	public JButton getButtonSalvar() {
 		if (buttonSalvar == null) {
 			buttonSalvar = new JButton();
-			buttonSalvar.setLocation(180, 150);
+			buttonSalvar.setLocation(180, 230);
 			buttonSalvar.setSize(70, 22);
 			buttonSalvar.setText("Salvar");
 			buttonSalvar.addActionListener(new ActionListener() {
@@ -279,8 +291,8 @@ public class JFrameCadastrar extends JFrame {
 	public JLabel getlblCarregarImagem() {
 		if (lblCarregarImagem == null) {
 			lblCarregarImagem = new JLabel();
-			lblCarregarImagem.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblCarregarImagem.setBounds(390, 43, 250, 160);
+			lblCarregarImagem.setHorizontalAlignment(SwingConstants.CENTER);
+			lblCarregarImagem.setBounds(40, 15, 350, 180);
 			lblCarregarImagem.setForeground(Color.BLACK);
 			lblCarregarImagem.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		}
@@ -292,7 +304,7 @@ public class JFrameCadastrar extends JFrame {
 			jButtonZoom = new jButtonZoom();
 			jButtonZoom.getJButtonZoomMin().setBounds(10, 11, 43, 18);
 			jButtonZoom.getJButtonZoomMax().setBounds(77, 11, 41, 18);
-			jButtonZoom.setLocation(260, 139);
+			jButtonZoom.setLocation(350, 139);
 			jButtonZoom.setSize(157, 53);
 			jButtonZoom.getJButtonZoomMin().addActionListener(e -> {
 				Integer valor = Integer.parseInt(jButtonZoom.getJLabelZoomText());
@@ -336,12 +348,10 @@ public class JFrameCadastrar extends JFrame {
 	        if (valor > 0) {
 	            int novaLargura = (larguraOriginal * valor) / 100;
 	            int novaAltura = (alturaOriginal * valor) / 100;
-	            
-	            Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(novaLargura, novaAltura, Image.SCALE_SMOOTH);
-	            
-	            ImageIcon novoIcone = new ImageIcon(imagemRedimensionada);
-	            
-	            lblCarregarImagem.setIcon(novoIcone);
+//	            Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(novaLargura, novaAltura, Image.SCALE_SMOOTH);
+//	            ImageIcon novoIcone = new ImageIcon(imagemRedimensionada);
+//	            novoIcone.getImage().getScaledInstance(300, 400, Image.SCALE_DEFAULT);
+//	            lblCarregarImagem.setIcon(novoIcone);
 	            lblCarregarImagem.setSize(novaLargura, novaAltura);
 	        }
 	    }
