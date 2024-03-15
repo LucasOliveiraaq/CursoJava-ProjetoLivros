@@ -59,6 +59,7 @@ public class JFrameCadastrar extends JFrame {
 	private JFileChooser jFileImagem;
 	
 	private JButton buttonSalvar;
+	private JButton buttonCancelar;
 	
 	private LivroController livroController = new LivroController();
 	private LivroImagemController livroImagemController = new LivroImagemController();
@@ -69,7 +70,7 @@ public class JFrameCadastrar extends JFrame {
 	
 	public JFrameCadastrar() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 300);
+		setBounds(100, 100, 500, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -98,11 +99,12 @@ public class JFrameCadastrar extends JFrame {
 	    
 	    tabbedPane.addTab("Cadastro", panelCadastro);
 	    tabbedPane.addTab("Imagem", panelImagem);
-	    tabbedPane.setSize(480, 230);
+	    tabbedPane.setSize(480, 270);
 	    
 	    //fora da aba
 	    contentPane.add(tabbedPane);
 	    contentPane.add(getButtonSalvar());
+	    contentPane.add(getButtonCancelar());
 	}
 
 	public JLabel getlblLivro() {
@@ -206,7 +208,7 @@ public class JFrameCadastrar extends JFrame {
 		if (lblImagem == null) {
 			lblImagem = new JLabel();
 			lblImagem.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblImagem.setBounds(2, 139, 70, 22);
+			lblImagem.setBounds(5, 205, 40, 22);
 			lblImagem.setForeground(Color.BLACK);
 			lblImagem.setFont(new Font("Tahoma", Font.PLAIN, 11));
 			lblImagem.setText("Imagem");
@@ -217,7 +219,7 @@ public class JFrameCadastrar extends JFrame {
 	public JTextField getTextFieldImagem() {
 		if (jTextFieldImagem == null) {
 			jTextFieldImagem = new JTextField();
-			jTextFieldImagem.setLocation(75, 139);
+			jTextFieldImagem.setLocation(48, 205);
 			jTextFieldImagem.setSize(273, 22);
 			jTextFieldImagem.setEditable(false);
 		}
@@ -227,7 +229,7 @@ public class JFrameCadastrar extends JFrame {
 	public JButton getButtonImagem() {
 		if (buttonImagem == null) {
 			buttonImagem = new JButton();
-			buttonImagem.setLocation(360, 139);
+			buttonImagem.setLocation(322, 205);
 			buttonImagem.setSize(18, 22);
 			buttonImagem.addActionListener(new ActionListener() {
 
@@ -263,7 +265,7 @@ public class JFrameCadastrar extends JFrame {
 	public JButton getButtonSalvar() {
 		if (buttonSalvar == null) {
 			buttonSalvar = new JButton();
-			buttonSalvar.setLocation(180, 230);
+			buttonSalvar.setLocation(320, 275);
 			buttonSalvar.setSize(70, 22);
 			buttonSalvar.setText("Salvar");
 			buttonSalvar.addActionListener(new ActionListener() {
@@ -278,7 +280,7 @@ public class JFrameCadastrar extends JFrame {
 						livro.getLivroImagem().setLivro(livroTemp);
 						livro.getLivroImagem().setImagemLivro(livro.getLivroImagem().getImagemLivro());
 						livroImagemController.saveLivroImagem(livro.getLivroImagem());
-						JFrameCadastrar.this.dispose();
+						dispose();
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -288,11 +290,28 @@ public class JFrameCadastrar extends JFrame {
 		return buttonSalvar;
 	}
 	
+	public JButton getButtonCancelar() {
+		if (buttonCancelar == null) {
+			buttonCancelar = new JButton();
+			buttonCancelar.setLocation(390, 275);
+			buttonCancelar.setSize(86, 22);
+			buttonCancelar.setText("Cancelar");
+			buttonCancelar.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+		}
+		return buttonCancelar;
+	}
+	
 	public JLabel getlblCarregarImagem() {
 		if (lblCarregarImagem == null) {
 			lblCarregarImagem = new JLabel();
 			lblCarregarImagem.setHorizontalAlignment(SwingConstants.CENTER);
-			lblCarregarImagem.setBounds(40, 15, 350, 180);
+			lblCarregarImagem.setBounds(5, 15, 460, 188);
 			lblCarregarImagem.setForeground(Color.BLACK);
 			lblCarregarImagem.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		}
@@ -304,7 +323,7 @@ public class JFrameCadastrar extends JFrame {
 			jButtonZoom = new jButtonZoom();
 			jButtonZoom.getJButtonZoomMin().setBounds(10, 11, 43, 18);
 			jButtonZoom.getJButtonZoomMax().setBounds(77, 11, 41, 18);
-			jButtonZoom.setLocation(350, 139);
+			jButtonZoom.setLocation(345, 195);
 			jButtonZoom.setSize(157, 53);
 			jButtonZoom.getJButtonZoomMin().addActionListener(e -> {
 				Integer valor = Integer.parseInt(jButtonZoom.getJLabelZoomText());
