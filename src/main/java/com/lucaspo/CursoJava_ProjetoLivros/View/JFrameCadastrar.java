@@ -70,7 +70,7 @@ public class JFrameCadastrar extends JFrame {
 	
 	public JFrameCadastrar() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 400);
+		setBounds(100, 100, 500, 340);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -276,7 +276,7 @@ public class JFrameCadastrar extends JFrame {
 					try {
 						livro = carregarLivro();
 						Livro livroTemp =  livroController.saveLivro(livro);
-						livro.getLivroImagem().setTamanhoImagem(10);
+						livro.getLivroImagem().setTamanhoImagem(Integer.parseInt(jButtonZoom.getJLabelZoomText()));
 						livro.getLivroImagem().setLivro(livroTemp);
 						livro.getLivroImagem().setImagemLivro(livro.getLivroImagem().getImagemLivro());
 						livroImagemController.saveLivroImagem(livro.getLivroImagem());
@@ -367,10 +367,6 @@ public class JFrameCadastrar extends JFrame {
 	        if (valor > 0) {
 	            int novaLargura = (larguraOriginal * valor) / 100;
 	            int novaAltura = (alturaOriginal * valor) / 100;
-//	            Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(novaLargura, novaAltura, Image.SCALE_SMOOTH);
-//	            ImageIcon novoIcone = new ImageIcon(imagemRedimensionada);
-//	            novoIcone.getImage().getScaledInstance(300, 400, Image.SCALE_DEFAULT);
-//	            lblCarregarImagem.setIcon(novoIcone);
 	            lblCarregarImagem.setSize(novaLargura, novaAltura);
 	        }
 	    }
