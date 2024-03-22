@@ -8,8 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "livro")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Livro {
 	
 	@Id
@@ -28,9 +37,6 @@ public class Livro {
 	@Transient
 	private LivroImagem livroImagem;
 	
-	public Livro() {
-	}
-
 	public Livro(String titulo, String autor, byte[] imagemLivro, Integer numPaginas, Integer statusLeitura) {
 		this.titulo = titulo;
 		this.autor = autor;
@@ -39,62 +45,9 @@ public class Livro {
 	}
 	
 	public Livro(String titulo, String autor, Integer numPaginas, Integer statusLeitura) {
-		super();
 		this.titulo = titulo;
 		this.autor = autor;
 		this.numPaginas = numPaginas;
 		this.statusLeitura = statusLeitura;
-	}
-	
-	public Integer getId() {
-		return id;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
-	public String getAutor() {
-		return autor;
-	}
-
-	public void setAutor(String autor) {
-		this.autor = autor;
-	}
-
-	public Integer getNumPaginas() {
-		return numPaginas;
-	}
-
-	public void setNumPaginas(Integer numPaginas) {
-		this.numPaginas = numPaginas;
-	}
-
-	public Integer getStatusLeitura() {
-		return statusLeitura;
-	}
-
-	public void setStatusLeitura(Integer statusLeitura) {
-		this.statusLeitura = statusLeitura;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public LivroImagem getLivroImagem() {
-		return livroImagem;
-	}
-
-	public void setLivroImagem(LivroImagem livroImagem) {
-		this.livroImagem = livroImagem;
 	}
 }

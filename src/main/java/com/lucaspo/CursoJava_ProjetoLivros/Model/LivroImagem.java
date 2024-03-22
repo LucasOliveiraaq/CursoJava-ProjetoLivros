@@ -9,8 +9,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "livroImagem")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class LivroImagem {
 
 	@Id
@@ -27,45 +36,9 @@ public class LivroImagem {
 	@JoinColumn(name = "livro_id")
 	private Livro livro;
 
-	public LivroImagem() {
-	}
-
 	public LivroImagem(Integer id, byte[] imagemLivro, int tamanhoImagem) {
 		this.id = id;
 		this.imagemLivro = imagemLivro;
 		this.tamanhoImagem = tamanhoImagem;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public byte[] getImagemLivro() {
-		return imagemLivro;
-	}
-
-	public void setImagemLivro(byte[] imagemLivro) {
-		this.imagemLivro = imagemLivro;
-	}
-
-	public int getTamanhoImagem() {
-		return tamanhoImagem;
-	}
-
-	public void setTamanhoImagem(int tamanhoImagem) {
-		this.tamanhoImagem = tamanhoImagem;
-	}
-
-	public Livro getLivro() {
-		return livro;
-	}
-
-	public void setLivro(Livro livro) {
-		this.livro = livro;
-	}
-	
+	}	
 }
