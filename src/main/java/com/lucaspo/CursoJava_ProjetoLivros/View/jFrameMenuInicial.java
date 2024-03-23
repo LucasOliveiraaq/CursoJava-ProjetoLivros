@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -30,9 +31,13 @@ public class jFrameMenuInicial extends JFrame {
 
 	JMenuBar barra = new JMenuBar();
 	JMenu menuCadastrar = new JMenu("Cadastrar");
+	JMenu menuRemover = new JMenu("Remover");
 	JMenu menuSair = new JMenu("Sair");
 
 	JMenuItem itemLivro = new JMenuItem("Livro");
+	JMenuItem removerLivro = new JMenuItem("Remover");
+	
+	static Integer controleRemover = 0;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -51,6 +56,7 @@ public class jFrameMenuInicial extends JFrame {
 		setJMenuBar(barra);
 		barra.add(menuCadastrar);
 		menuCadastrar.add(itemLivro);
+		menuCadastrar.add(removerLivro);
 		itemLivro.addActionListener(new ActionListener() {
 
 			@Override
@@ -83,13 +89,20 @@ public class jFrameMenuInicial extends JFrame {
 
 					@Override
 					public void windowClosed(WindowEvent e) {
-						gridCadastroLivro();
+						gridCadastroLivro(999);
 					}
 
 					@Override
 					public void windowActivated(WindowEvent e) {
 					}
 				});
+			}
+		});
+		removerLivro.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gridCadastroLivro(controleRemover);
 			}
 		});
 		barra.add(Box.createHorizontalGlue()); // abaixo vai alinhar a direita o menu.
@@ -99,10 +112,10 @@ public class jFrameMenuInicial extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		gridCadastroLivro();
+		gridCadastroLivro(999); // 999 por conta do integer.
 	}
 
-	public void gridCadastroLivro() {
+	public void gridCadastroLivro(Integer controle) {
 	    String[] columnNames = {"titulo", "autor", "numPaginas", "status"}; 
 	    TableModel<Livro> tableModel = new TableModel<>(columnNames);
 
@@ -118,19 +131,26 @@ public class jFrameMenuInicial extends JFrame {
         JPanel jPanel = new JPanel(new GridLayout(0, 1));
         jPanel.add(new JScrollPane(jTable));
 
-        jTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = jTable.getSelectedRow();
-                if (row != -1) {
-                    Livro livroSelecionado = tableModel.getObjectAt(row);
-                    JFrameAlterarCadastro jFrameAlterarCadastro = new JFrameAlterarCadastro(livroSelecionado);
-                    jFrameAlterarCadastro.setVisible(true);
-                    jFrameAlterarCadastro.setLocationRelativeTo(null);
-                    jFrameAlterarCadastro.setResizable(false);
-                }
-            }
-        });
+        if(controle == controleRemover) {
+        	int row = jTable.getSelectedRow();
+        	if(row == -1) {
+        		JOptionPane.showMessageDialog(null, "Selecione uma linha para exclusão.", "Exclusão", 0);
+        	}
+        } else {
+        	jTable.addMouseListener(new MouseAdapter() {
+        		@Override
+        		public void mouseClicked(MouseEvent e) {
+        			int row = jTable.getSelectedRow();
+        			if (row != -1) {
+        				Livro livroSelecionado = tableModel.getObjectAt(row);
+        				JFrameAlterarCadastro jFrameAlterarCadastro = new JFrameAlterarCadastro(livroSelecionado);
+        				jFrameAlterarCadastro.setVisible(true);
+        				jFrameAlterarCadastro.setLocationRelativeTo(null);
+        				jFrameAlterarCadastro.setResizable(false);
+        			}
+        		}
+        	});
+        }
 
         add(jPanel);
         setSize(600, 300);
