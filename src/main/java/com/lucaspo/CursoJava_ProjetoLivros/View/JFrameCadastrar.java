@@ -275,10 +275,7 @@ public class JFrameCadastrar extends JFrame {
 					Livro livro;
 					try {
 						livro = carregarLivro();
-						Livro livroTemp =  livroController.saveLivro(livro);
-						livro.getLivroImagem().setTamanhoImagem(Integer.parseInt(jButtonZoom.getJLabelZoomText()));
-						livro.getLivroImagem().setLivro(livroTemp);
-						livro.getLivroImagem().setImagemLivro(livro.getLivroImagem().getImagemLivro());
+						livroController.saveLivro(livro);
 						livroImagemController.saveLivroImagem(livro.getLivroImagem());
 						dispose();
 					} catch (IOException e1) {
@@ -352,9 +349,11 @@ public class JFrameCadastrar extends JFrame {
 		livro.setAutor(jTextFieldAutor.getText());
 		byte[] imagemLivro = Files.readAllBytes(Paths.get(jTextFieldImagem.getText()));
 		livroImagem.setImagemLivro(imagemLivro);
+		livroImagem.setTamanhoImagem(Integer.parseInt(jButtonZoom.getJLabelZoomText()));
 		livro.setLivroImagem(livroImagem);
 		livro.setNumPaginas((Integer) jSpinnerNumPaginas.getValue());
 		livro.setStatusLeitura(jComboBoxStatus.getSelectedIndex());
+		livroImagem.setLivro(livro);
 		return livro;
 	}
 	
