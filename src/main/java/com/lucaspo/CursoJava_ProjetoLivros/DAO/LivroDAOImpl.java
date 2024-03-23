@@ -35,6 +35,12 @@ public class LivroDAOImpl implements LivroDAO {
 	        return null;
 	    }
 	}
-
-
+	
+	public Livro update(Livro livro) {
+		em.getTransaction().begin();
+		Livro livro2 =  em.merge(livro);
+		em.getTransaction().commit();
+		emf.close();
+		return livro2;
+	}
 }

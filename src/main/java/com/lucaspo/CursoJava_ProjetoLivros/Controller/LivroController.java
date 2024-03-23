@@ -16,4 +16,8 @@ public class LivroController {
 	public List<Livro> loadAll(){
 		 return livroDAOImpl.loadAll();
 	}
+	
+	public Livro update(Livro livro) {
+		return livroDAOImpl.update(livro);
+	}
 }
