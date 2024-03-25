@@ -43,4 +43,15 @@ public class LivroDAOImpl implements LivroDAO {
 		emf.close();
 		return livro2;
 	}
+
+	@Override
+	public Livro delete(Livro livro) {
+	    em.getTransaction().begin();
+	    Livro livroToDelete = em.find(Livro.class, livro.getId());   
+	    em.remove(livroToDelete);
+	    em.getTransaction().commit();
+	    emf.close();
+	    return livroToDelete;
+	}
+
 }
