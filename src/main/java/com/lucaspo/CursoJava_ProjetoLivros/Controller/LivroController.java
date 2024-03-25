@@ -20,4 +20,8 @@ public class LivroController {
 	public Livro update(Livro livro) {
 		return livroDAOImpl.update(livro);
 	}
+	
+	public void remove(Livro livro) {
+		livroDAOImpl.remove(livro);
+	}
 }

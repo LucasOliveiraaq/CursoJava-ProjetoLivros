@@ -6,5 +6,5 @@ public interface LivroDAO {
 	public Livro save(Livro livro);
 	public java.util.List<Livro> loadAll();
 	public Livro update(Livro livro);
-	public Livro delete(Livro livro);
+	public Livro remove(Livro livro);
 }

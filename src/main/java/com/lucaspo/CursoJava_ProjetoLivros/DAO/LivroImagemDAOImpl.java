@@ -27,7 +27,7 @@ public class LivroImagemDAOImpl implements LivroImagemDAO{
 
 	@Override
 	public List<LivroImagem>loadByLivroId(Integer idLivro) {
-		return (List<LivroImagem>) em.createQuery("select li from LivroImagem li where livro_id = " + idLivro);
+		return (List<LivroImagem>) em.createQuery("select li from LivroImagem li where livro.id = " + idLivro, LivroImagem.class).getResultList();
 	}
 
 	@Override

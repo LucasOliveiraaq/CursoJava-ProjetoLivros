@@ -45,13 +45,13 @@ public class LivroDAOImpl implements LivroDAO {
 	}
 
 	@Override
-	public Livro delete(Livro livro) {
+	public Livro remove(Livro livro) {
 	    em.getTransaction().begin();
-	    Livro livroToDelete = em.find(Livro.class, livro.getId());   
-	    em.remove(livroToDelete);
+	    Livro livroRemove = em.find(Livro.class, livro.getId());   
+	    em.remove(livroRemove);
 	    em.getTransaction().commit();
 	    emf.close();
-	    return livroToDelete;
+	    return livroRemove;
 	}
 
 }

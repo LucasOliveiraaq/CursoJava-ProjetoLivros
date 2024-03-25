@@ -39,6 +39,7 @@ public class jFrameMenuInicial extends JFrame {
 	JMenuItem itemLivro = new JMenuItem("Livro");
 	JMenuItem removerLivro = new JMenuItem("Remover");
 	
+	LivroController livroController = new LivroController();
 	LivroImagemController livroImagemController = new LivroImagemController();
 	
 	static Integer controleRemover = 0;
@@ -138,55 +139,30 @@ public class jFrameMenuInicial extends JFrame {
         jTable.addMouseListener(new MouseAdapter() {
         	@Override
     		public void mouseClicked(MouseEvent e) {
-        		if(e.getClickCount() == 2) {
-        			int row = jTable.getSelectedRow();
-    				if (row != -1) {
-    					Livro livroSelecionado = tableModel.getObjectAt(row);
-    					JFrameAlterarCadastro jFrameAlterarCadastro = new JFrameAlterarCadastro(livroSelecionado);
-    					jFrameAlterarCadastro.setVisible(true);
-    					jFrameAlterarCadastro.setLocationRelativeTo(null);
-    					jFrameAlterarCadastro.setResizable(false);
-    				}
-        		} else {
-        			int row = jTable.getSelectedRow();
-                	if(row == -1) {
-                		JOptionPane.showMessageDialog(null, "Selecione uma linha para exclusão.", "Exclusão", 0);
-                		return;
-                	}
-                	Livro livroSelecionado = tableModel.getObjectAt(row);
-                	List<LivroImagem> listImagems = new LivroImagemController().loadByLivroId(livroSelecionado.getId());
-                	listImagems.forEach(imagens -> livroImagemController.remove(imagens));
+        		int row = jTable.getSelectedRow();
+        		if(row != -1) {
+					if (e.getClickCount() == 2) { //double click
+						Livro livroSelecionado = tableModel.getObjectAt(row);
+						JFrameAlterarCadastro jFrameAlterarCadastro = new JFrameAlterarCadastro(livroSelecionado);
+						jFrameAlterarCadastro.setVisible(true);
+						jFrameAlterarCadastro.setLocationRelativeTo(null);
+						jFrameAlterarCadastro.setResizable(false);
+					} else {
+        				if(row == -1) {
+        					JOptionPane.showMessageDialog(null, "Selecione uma linha para exclusão.", "Exclusão", 0);
+        					return;
+        				} else if(controle == controleRemover) {
+        					Livro livroSelecionado = tableModel.getObjectAt(row);
+        					List<LivroImagem> listImagems = new LivroImagemController().loadByLivroId(livroSelecionado.getId());
+        					listImagems.forEach(imagens -> livroImagemController.remove(imagens));
+        					livroController.remove(livroSelecionado);
+        					remove(jPanel);
+        				}
+        			}
         		}
         	}
         });
         
-//        if(controle == controleRemover) {
-//        	int row = jTable.getSelectedRow();
-//        	if(row == -1) {
-//        		JOptionPane.showMessageDialog(null, "Selecione uma linha para exclusão.", "Exclusão", 0);
-//        		return;
-//        	}
-//        	Livro livroSelecionado = tableModel.getObjectAt(row);
-//        	List<LivroImagem> listImagems = new LivroImagemController().loadByLivroId(livroSelecionado.getId());
-//        	listImagems.forEach(imagens -> livroImagemController.remove(imagens));
-//        } else {
-//        	jTable.addMouseListener(new MouseAdapter() {
-//        		@Override
-//        		public void mouseClicked(MouseEvent e) {
-//        			if(e.getClickCount() == 2) {
-//        				int row = jTable.getSelectedRow();
-//        				if (row != -1) {
-//        					Livro livroSelecionado = tableModel.getObjectAt(row);
-//        					JFrameAlterarCadastro jFrameAlterarCadastro = new JFrameAlterarCadastro(livroSelecionado);
-//        					jFrameAlterarCadastro.setVisible(true);
-//        					jFrameAlterarCadastro.setLocationRelativeTo(null);
-//        					jFrameAlterarCadastro.setResizable(false);
-//        				}
-//        			}
-//        		}
-//        	});
-//        }
-
         add(jPanel);
         setSize(600, 300);
         setLocationRelativeTo(null);
