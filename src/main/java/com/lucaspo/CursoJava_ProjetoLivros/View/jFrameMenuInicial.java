@@ -12,14 +12,12 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import com.lucaspo.CursoJava_ProjetoLivros.Controller.LivroController;
@@ -147,6 +145,38 @@ public class jFrameMenuInicial extends JFrame {
 						jFrameAlterarCadastro.setVisible(true);
 						jFrameAlterarCadastro.setLocationRelativeTo(null);
 						jFrameAlterarCadastro.setResizable(false);
+						jFrameAlterarCadastro.addWindowListener( new WindowListener() {
+							
+							@Override
+							public void windowOpened(WindowEvent e) {
+							}
+							
+							@Override
+							public void windowIconified(WindowEvent e) {
+							}
+							
+							@Override
+							public void windowDeiconified(WindowEvent e) {
+							}
+							
+							@Override
+							public void windowDeactivated(WindowEvent e) {
+							}
+							
+							@Override
+							public void windowClosing(WindowEvent e) {
+							}
+							
+							@Override
+							public void windowClosed(WindowEvent e) {
+								gridCadastroLivro(999); //atualizar a grid.
+								remove(jPanel);
+							}
+							
+							@Override
+							public void windowActivated(WindowEvent e) {
+							}
+						});
 					} else {
         				if(row == -1) {
         					JOptionPane.showMessageDialog(null, "Selecione uma linha para exclusão.", "Exclusão", 0);
