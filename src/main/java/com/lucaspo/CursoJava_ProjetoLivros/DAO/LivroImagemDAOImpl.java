@@ -39,4 +39,18 @@ public class LivroImagemDAOImpl implements LivroImagemDAO{
 		emf.close();
 	}
 
+	@Override
+	public LivroImagem update(LivroImagem livroImagem) {
+		em.getTransaction().begin();
+		LivroImagem livroImagem2 = em.merge(livroImagem);
+		em.getTransaction().commit();
+		emf.close();
+		return livroImagem2;
+	}
+
+	@Override
+	public LivroImagem loadByLivroImagemId(Integer idLivro) {
+		return (LivroImagem) em.createQuery("select li from LivroImagem li where livro.id = " + idLivro, LivroImagem.class).getSingleResult();
+	}
+
 }

@@ -9,4 +9,6 @@ public interface LivroImagemDAO {
 	public void save(LivroImagem livroImagem);
 	public List<LivroImagem>  loadByLivroId(Integer idLivro);
 	public void remove (LivroImagem livroImagem);
+	public LivroImagem update(LivroImagem livroImagem);
+	public LivroImagem loadByLivroImagemId(Integer idLivro);
 }

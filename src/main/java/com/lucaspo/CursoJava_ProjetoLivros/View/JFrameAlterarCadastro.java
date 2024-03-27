@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,6 +14,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,8 +23,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.lucaspo.CursoJava_ProjetoLivros.Controller.LivroController;
+import com.lucaspo.CursoJava_ProjetoLivros.Controller.LivroImagemController;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.Livro;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.LivroImagem;
 import com.lucaspo.CursoJava_ProjetoLivros.Model.StatusLeitura;
@@ -52,18 +56,24 @@ public class JFrameAlterarCadastro extends JFrame {
 	private JButton buttonAlteracao;
 
 	private JLabel lblImagem;
-
-	private Livro livro = new Livro();
 	
 	private jButtonZoom jButtonZoom;
 	
 	private JTextField jTextFieldImagem;
 	
+	private JButton buttonImagem;
+	private JFileChooser jFileImagem;
+	
 	private JButton buttonAlterar;
 	private JButton buttonCancelar;
 	
+	private JLabel lblCarregarImagem;
+	
 	private LivroController livroController = new LivroController();
-
+	private LivroImagemController livroImagemController = new LivroImagemController();
+	
+	private Integer idLivro;
+	
 	public JFrameAlterarCadastro(Livro livro) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 340);
@@ -89,8 +99,9 @@ public class JFrameAlterarCadastro extends JFrame {
 	    panelImagem.setLayout(null);
 	    panelImagem.add(getlblImagem());
 	    panelImagem.add(getjButtonZoom());
-	    panelImagem.add(getlblImagem());
 	    panelImagem.add(getTextFieldImagem());
+	    panelImagem.add(getButtonImagem());
+	    panelImagem.add(getlblCarregarImagem());
 	    
 	    tabbedPane.addTab("Cadastro", panelCadastro);
 	    tabbedPane.addTab("Imagem", panelImagem);
@@ -101,6 +112,7 @@ public class JFrameAlterarCadastro extends JFrame {
 	    contentPane.add(getButtonAlterar());
 	    contentPane.add(getButtonCancelar());
 		if (livro != null) {
+			idLivro = livro.getId();
 			carregarOsCampos(livro);
 		}
 	}
@@ -222,11 +234,23 @@ public class JFrameAlterarCadastro extends JFrame {
 		if (lblImagem == null) {
 			lblImagem = new JLabel();
 			lblImagem.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblImagem.setBounds(5, 15, 460, 188);
+			lblImagem.setBounds(5, 205, 40, 22);
 			lblImagem.setForeground(Color.BLACK);
 			lblImagem.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			lblImagem.setText("Imagem");
 		}
 		return lblImagem;
+	}
+	
+	public JLabel getlblCarregarImagem() {
+		if (lblCarregarImagem == null) {
+			lblCarregarImagem = new JLabel();
+			lblCarregarImagem.setHorizontalAlignment(SwingConstants.CENTER);
+			lblCarregarImagem.setBounds(5, 15, 460, 188);
+			lblCarregarImagem.setForeground(Color.BLACK);
+			lblCarregarImagem.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		}
+		return lblCarregarImagem;
 	}
 	
 	public JTextField getTextFieldImagem() {
@@ -237,6 +261,42 @@ public class JFrameAlterarCadastro extends JFrame {
 			jTextFieldImagem.setEditable(false);
 		}
 		return jTextFieldImagem;
+	}
+	
+	public JButton getButtonImagem() {
+		if (buttonImagem == null) {
+			buttonImagem = new JButton();
+			buttonImagem.setLocation(322, 205);
+			buttonImagem.setSize(18, 22);
+			buttonImagem.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						jFileImagem = new JFileChooser();
+						jFileImagem.setDialogTitle("Procurar imagem");
+						jFileImagem.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagem", "jpg", "Png");
+						jFileImagem.setFileFilter(filter);
+						
+						int retorno = jFileImagem.showOpenDialog(JFrameAlterarCadastro.this);
+						
+						if (retorno == JFileChooser.APPROVE_OPTION) {
+							File file = jFileImagem.getSelectedFile();
+							jTextFieldImagem.setText(file.getPath());
+							BufferedImage imagem = new ImageLoader().carregarImagemPasta(file.getPath());
+							if(imagem != null) {
+								ImageIcon icon = new ImageIcon(imagem);
+								lblCarregarImagem.setIcon(icon);
+							}
+						}
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
+			});
+		}
+		return buttonImagem;
 	}
 	
 	public jButtonZoom getjButtonZoom() {
@@ -267,7 +327,7 @@ public class JFrameAlterarCadastro extends JFrame {
 	}
 	
 	public void aplicarZoom(int valor) {
-	    ImageIcon imagemIcon = (ImageIcon) lblImagem.getIcon();
+	    ImageIcon imagemIcon = (ImageIcon) lblCarregarImagem.getIcon();
 	    if (imagemIcon != null) {
 	        int larguraOriginal = imagemIcon.getIconWidth();
 	        int alturaOriginal = imagemIcon.getIconHeight();
@@ -275,7 +335,7 @@ public class JFrameAlterarCadastro extends JFrame {
 	        if (valor > 0) {
 	            int novaLargura = (larguraOriginal * valor) / 100;
 	            int novaAltura = (alturaOriginal * valor) / 100;
-	            lblImagem.setSize(novaLargura, novaAltura);
+	            lblCarregarImagem.setSize(novaLargura, novaAltura);
 	        }
 	    }
 	}
@@ -285,11 +345,14 @@ public class JFrameAlterarCadastro extends JFrame {
 		jTextFieldAutor.setText(livro.getAutor());
 		jSpinnerNumPaginas.setValue(livro.getNumPaginas());
 		jComboBoxStatus.setSelectedIndex(livro.getStatusLeitura());
-//		BufferedImage imagem = new ImageLoader().carregarImagem(livro.getLivroImagem().getImagemLivro());
-//		if (imagem != null) {
-//			ImageIcon icon = new ImageIcon(imagem);
-//			lblImagem.setIcon(icon);
-//		}
+		LivroImagem livroImagem = livroImagemController.loadByLivroImagemId(livro.getId());
+		BufferedImage imagem = new ImageLoader().carregarImagem(livroImagem.getImagemLivro());
+		if (imagem != null) {
+			ImageIcon icon = new ImageIcon(imagem);
+			lblCarregarImagem.setIcon(icon);
+		}
+		jButtonZoom.setJDataLabelPorcentagemText("" + livroImagem.getTamanhoImagem());
+		aplicarZoom(livroImagem.getTamanhoImagem());
 	}
 	
 	public JButton getButtonAlterar() {
@@ -304,13 +367,13 @@ public class JFrameAlterarCadastro extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					Livro livro;
 					try {
-						livro = carregarLivro();
-						livroController.update(livro);
-//						livro.getLivroImagem().setTamanhoImagem(Integer.parseInt(jButtonZoom.getJLabelZoomText()));
-//						livro.getLivroImagem().setLivro(livroTemp);
-//						livro.getLivroImagem().setImagemLivro(livro.getLivroImagem().getImagemLivro());
-//						livroImagemController.saveLivroImagem(livro.getLivroImagem());
-//						dispose();
+						livro = carregarLivro(idLivro);
+						Livro livroTemp =  livroController.update(livro);
+						livro.getLivroImagem().setTamanhoImagem(Integer.parseInt(jButtonZoom.getJLabelZoomText()));
+						livro.getLivroImagem().setLivro(livroTemp);
+						livro.getLivroImagem().setImagemLivro(livro.getLivroImagem().getImagemLivro());
+						livroImagemController.update(livro.getLivroImagem());
+						dispose();
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -337,15 +400,13 @@ public class JFrameAlterarCadastro extends JFrame {
 		return buttonCancelar;
 	}
 	
-	public Livro carregarLivro() throws IOException {
+	public Livro carregarLivro(Integer idLivro) throws IOException {
 		Livro livro = new Livro();
-		LivroImagem livroImagem = new LivroImagem();
+		livro.setId(idLivro);
 		livro.setTitulo(jTextFieldTitulo.getText());
 		livro.setAutor(jTextFieldAutor.getText());
-//		byte[] imagemLivro = Files.readAllBytes(Paths.get(jTextFieldImagem.getText()));
-//		livroImagem.setImagemLivro(imagemLivro);
-//		livroImagem.setTamanhoImagem(Integer.parseInt(jButtonZoom.getJLabelZoomText()));
-//		livro.setLivroImagem(livroImagem);
+		LivroImagem imagem = livroImagemController.loadByLivroImagemId(idLivro);
+		livro.setLivroImagem(imagem);
 		livro.setNumPaginas((Integer) jSpinnerNumPaginas.getValue());
 		livro.setStatusLeitura(jComboBoxStatus.getSelectedIndex());
 		return livro;
